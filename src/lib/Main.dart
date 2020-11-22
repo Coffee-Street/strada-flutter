@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // TODO : 연결할 파일 import
 import 'Home.dart';
+import 'Auth.dart';
 
 void main() => runApp(MainApp());
 
@@ -12,7 +13,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         // This is the theme of your application.
-        primarySwatch: Colors.brown,
+        primaryColor: Colors.indigo,
         // visual density
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
@@ -93,7 +94,7 @@ class _HomeMenuState extends State<MainMenu> {
 
         // Set Theme
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.brown,
+        backgroundColor: Theme.of(context).primaryColor,
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.grey,
 
