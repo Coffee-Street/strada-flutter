@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
 
-part 'RestClinet.g.dart';
+part 'RestClient.g.dart';
 
 @RestApi(baseUrl:'http://ec2-3-35-55-47.ap-northeast-2.compute.amazonaws.com:8080')
 abstract class RestClient {
