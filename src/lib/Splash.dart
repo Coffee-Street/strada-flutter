@@ -1,13 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 
+import 'Auth.dart';
 import 'Main.dart';
-
-void main(){
-  runApp(new MaterialApp(
-    home: new SplashPage(),
-  ));
-}
 
 class SplashPage extends StatefulWidget {
   @override
@@ -16,23 +13,49 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   @override
-  Widget build(BuildContext context) {
-    return new SplashScreen(
-        seconds: 3,
-        navigateAfterSeconds: new AfterSplash(),
-        title: new Text(''),
-        image: Image.asset(
-          'assets/splash_logo.png',
-          width: 120,
-          height: 81,
-        ),
-        photoSize: 100.0,
-        backgroundColor: Colors.white,
-        styleTextUnderTheLoader: null,
-        onClick: ()=>print("Flutter Egypt"),
-        loaderColor: Colors.red
+  void initState() {
+    super.initState();
+    Timer(Duration(seconds: 3),
+            ()=>Navigator.pushReplacement(context,
+            MaterialPageRoute(builder:
+                (context) => AuthMainPage()
+            )
+        )
     );
   }
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: Colors.white,
+        child:Center(
+          child: Image.asset(
+            'assets/splash_logo.png',
+            width: 120,
+            height: 81,
+          ),
+        ),
+    );
+  }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return new SplashScreen(
+  //     seconds: 3,
+  //     navigateAfterSeconds: new AuthMainPage(),
+  //     title: new Text(''),
+  //     image: Image.asset(
+  //       'assets/splash_logo.png',
+  //       width: 120,
+  //       height: 81,
+  //     ),
+  //     photoSize: 100.0,
+  //     backgroundColor: Colors.white,
+  //     styleTextUnderTheLoader: null,
+  //     onClick: ()=>print("Flutter Egypt"),
+  //     loaderColor: Colors.indigo,
+  //     useLoader: false,
+  //   );
+  // }
 }
 class AfterSplash extends StatefulWidget {
   @override

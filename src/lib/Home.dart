@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'Auth.dart';
-
 class HomePage extends StatelessWidget {
   // TODO : Home Widget 작성
   @override
@@ -30,7 +28,7 @@ class HomePageDisplay extends StatelessWidget {
         ),
       ],
     ),
-    child: AuthMainPage(),
+    // child: AuthMainPage(),
   );
   // TODO : Session 추가
 
