@@ -87,9 +87,11 @@ class AuthBloc {
     return res;
   }
 
-  Future<void> logOut() async {
+  Future<bool> logOut() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('phoneNumber', null);
     _token = '';
+
+    return Future.value(true);
   }
 }
