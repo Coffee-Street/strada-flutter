@@ -11,40 +11,14 @@ class AuthMainPage extends StatefulWidget {
 }
 
 class _AuthMainPageState extends State<AuthMainPage> {
-  AuthBloc _authBloc = AuthBloc();
+  static AuthBloc authBloc = AuthBloc();
   bool _autoLogin = true;
-
-  Future<bool> login({
-    @required String phoneNumber,
-  }) async {
-    var res = await _authBloc.logIn(phoneNumber, _autoLogin).then((isSuccess) {
-      print('Login result : $isSuccess');
-      return Future.value(isSuccess);
-    }).catchError((error) {
-      print('Login error: $error');
-      return Future.value(false);
-    });
-    return res;
-  }
-
-  Future<bool> autoLogin({
-    @required String phoneNumber,
-  }) async {
-    var res = await _authBloc.autoLogIn().then((isSuccess) {
-      print('Auto login result : $isSuccess');
-      return Future.value(isSuccess);
-    }).catchError((error) {
-      print('Auto login error: $error');
-      return Future.value(false);
-    });
-    return res;
-  }
 
   @override
   void initState() {
     super.initState();
 
-    var autoLoggedIn = _authBloc.autoLogIn();
+    var autoLoggedIn = authBloc.autoLogIn();
     autoLoggedIn.then((isSuccess) {
       if(isSuccess == true) {
         Navigator.push(
@@ -93,7 +67,7 @@ class _AuthMainPageState extends State<AuthMainPage> {
                   style: TextStyle(fontSize: 15),
                 ),
                 onPressed: () async {
-                  var resLoggedIn = _authBloc.logIn(phoneNumberController.text, _autoLogin);
+                  var resLoggedIn = authBloc.logIn(phoneNumberController.text, _autoLogin);
                   resLoggedIn.then((isSuccess) {
                     if(isSuccess != null && isSuccess == true) {
                       Navigator.push(

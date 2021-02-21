@@ -52,10 +52,13 @@ class AuthBloc {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String userPhoneNumber = prefs.getString('phoneNumber');
 
-    if(userPhoneNumber == null) // 저장 된 자동 로그인 ID 없음
+    if(userPhoneNumber == null) {
+      print('No automatic login ID.'); // 저장 된 자동 로그인 ID 없음
       return Future.value(false);
+    }
 
     var res = await logIn(userPhoneNumber, true).then((response) {
+      print('Auto Login succeeded : $response');
       return Future.value(response);
     }).catchError((error) {
       print('error: $error');
@@ -75,6 +78,7 @@ class AuthBloc {
         else {
           prefs.setString('phoneNumber', null);
         }
+        print('Login succeeded : $response');
         return Future.value(true);
       }
       else
@@ -92,6 +96,7 @@ class AuthBloc {
     prefs.setString('phoneNumber', null);
     _token = '';
 
+    print('Logout succeeded : true');
     return Future.value(true);
   }
 }
