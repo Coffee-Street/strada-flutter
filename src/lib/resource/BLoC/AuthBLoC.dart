@@ -2,13 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:src/resource/Retrofit/RestClient.dart';
 
-class ExBloc {
+class AuthBloc {
   static Dio _dio = Dio();
   static RestClient _restClient = RestClient(_dio);
 
   static String _token;
 
-  ExBloc()
+  AuthBloc()
   {
     _token = '';
   }
@@ -55,7 +55,7 @@ class ExBloc {
     if(userPhoneNumber == null) // 저장 된 자동 로그인 ID 없음
       return Future.value(false);
 
-    var res = await logIn(userPhoneNumber).then((response) {
+    var res = await logIn(userPhoneNumber, true).then((response) {
       return Future.value(response);
     }).catchError((error) {
       print('error: $error');
@@ -65,10 +65,18 @@ class ExBloc {
     return res;
   }
 
-  Future<bool> logIn(String phoneNumber) async {
+  Future<bool> logIn(String phoneNumber, bool isAutoLogin) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     var res = await getToken(phoneNumber).then((response) {
-      if(_token != '')
+      if(_token != '') {
+        if(isAutoLogin == true) {
+          prefs.setString('phoneNumber', phoneNumber);
+        }
+        else {
+          prefs.setString('phoneNumber', null);
+        }
         return Future.value(true);
+      }
       else
         return Future.value(false);
     }).catchError((error) {
