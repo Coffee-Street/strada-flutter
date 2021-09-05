@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:src/resource/design/ColorPalette.dart';
 import 'package:src/resource/Screens/Home.dart';
 import 'package:src/resource/BLoC/AuthBLoC.dart';
 
@@ -51,7 +52,7 @@ class _AuthMainPageState extends State<AuthMainPage> {
                 controller: phoneNumberController,
                 decoration: InputDecoration(
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+                    borderSide: BorderSide(color: MainColorPalette.primaryColor),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   hintText: '전화번호를 입력해주세요.',

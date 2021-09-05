@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:splashscreen/splashscreen.dart';
 
+import '../design/ColorPalette.dart';
 import 'Auth.dart';
 import 'Main.dart';
 
@@ -26,7 +27,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.white,
+        color: MainColorPalette.monoWhite,
         child:Center(
           child: Image.asset(
             'assets/splash_logo.png',
@@ -85,7 +86,7 @@ class _AterSplashState extends State<AfterSplash> {
               child: TextField(
                 decoration: InputDecoration(
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+                    borderSide: BorderSide(color: MainColorPalette.primaryColor),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   hintText: '전화번호를 입력해주세요.',

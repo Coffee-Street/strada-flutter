@@ -1,1 +1,12 @@
-// TODO : 여기에는 각종 리소스를 관리하면 좋을 것 같다. (ex. color pack 등)
+// TODO : Theme 분리 필요할 때 작성
+//import 'package:flutter/material.dart';
+//
+//import 'ColorPalette.dart';
+//
+//final ThemeData MainThemeData = new ThemeData(
+//    brightness: Brightness.light,
+//    primaryColor: MainColorPack.primaryColor,
+//    primaryColorBrightness: Brightness.light,
+//    accentColor: MainColorPack.subColor,
+//    accentColorBrightness: Brightness.light
+//);
