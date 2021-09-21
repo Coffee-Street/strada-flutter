@@ -26,6 +26,12 @@ abstract class RestClient {
   Future<String> getPong(
       @Header("authorization") String token,
       );
+
+  // Banner
+  @GET('/strada/v1/banners')
+  Future<Banners> getBanners(
+      @Header("authorization") String token,
+      );
 }
 
 @JsonSerializable()
@@ -38,4 +44,29 @@ class Token {
 
   factory Token.fromJson(Map<String, dynamic> json) => _$TokenFromJson(json);
   Map<String, dynamic> toJson() => _$TokenToJson(this);
+}
+
+@JsonSerializable()
+class Banners {
+  String codeName;
+  String title;
+  String imageUrl;
+  String contents;
+
+  Banners({
+    this.codeName,
+    this.title,
+    this.imageUrl,
+    this.contents,
+  });
+
+  factory Banners.fromJson(Map<String, dynamic> json) {
+    return Banners(
+      codeName: json["code"],
+      title: json["title"],
+      imageUrl: json["imageUrl"],
+      contents: json["message"],
+    );
+  }
+  Map<String, dynamic> toJson() => _$BannersToJson(this);
 }

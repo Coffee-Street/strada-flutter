@@ -16,6 +16,22 @@ Map<String, dynamic> _$TokenToJson(Token instance) => <String, dynamic>{
       'accessToken': instance.accessToken,
     };
 
+Banners _$BannersFromJson(Map<String, dynamic> json) {
+  return Banners(
+    codeName: json['codeName'] as String,
+    title: json['title'] as String,
+    imageUrl: json['imageUrl'] as String,
+    contents: json['contents'] as String,
+  );
+}
+
+Map<String, dynamic> _$BannersToJson(Banners instance) => <String, dynamic>{
+      'codeName': instance.codeName,
+      'title': instance.title,
+      'imageUrl': instance.imageUrl,
+      'contents': instance.contents,
+    };
+
 // **************************************************************************
 // RetrofitGenerator
 // **************************************************************************
@@ -82,6 +98,25 @@ class _RestClient implements RestClient {
             baseUrl: baseUrl),
         data: _data);
     final value = _result.data;
+    return value;
+  }
+
+  @override
+  Future<Banners> getBanners(token) async {
+    ArgumentError.checkNotNull(token, 'token');
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/strada/v1/banners',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{r'authorization': token},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = Banners.fromJson(_result.data);
     return value;
   }
 }

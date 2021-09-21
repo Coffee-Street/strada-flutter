@@ -10,7 +10,6 @@ class AuthBloc {
 
   AuthBloc()
   {
-    _token = '';
   }
 
   Future<bool> getHealth() async {
@@ -98,5 +97,9 @@ class AuthBloc {
 
     print('Logout succeeded : true');
     return Future.value(true);
+  }
+
+  String getAccessToken() {
+    return _token;
   }
 }
