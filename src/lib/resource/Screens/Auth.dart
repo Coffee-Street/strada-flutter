@@ -71,12 +71,27 @@ class _AuthMainPageState extends State<AuthMainPage> {
                   var resLoggedIn = authBloc.logIn(phoneNumberController.text, _autoLogin);
                   resLoggedIn.then((isSuccess) {
                     if(isSuccess != null && isSuccess == true) {
-                      authBloc.getHealth();
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => HomePage()),
                       );
                     }
+                  });
+                },
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 72,
+              child:  RaisedButton(
+                child: Text(
+                  '퐁퐁',
+                  style: TextStyle(fontSize: 15),
+                ),
+                onPressed: () async {
+                  var resLoggedIn = authBloc.getHealth();
+                  resLoggedIn.then((isSuccess) {
+                    print('퐁퐁 결과 :::: $isSuccess');
                   });
                 },
               ),
