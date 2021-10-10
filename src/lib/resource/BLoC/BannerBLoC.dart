@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:src/resource/BLoC/AuthBLoC.dart';
 import 'package:src/resource/Retrofit/RestClient.dart';
@@ -9,9 +8,7 @@ class BannerBloc {
   static RestClient _restClient = RestClient(_dio);
   static AuthBloc authBloc = AuthBloc();
 
-  String _token;
   BannerBloc() {
-    _token = authBloc.getAccessToken();
   }
 
   /// Banner List
@@ -21,12 +18,14 @@ class BannerBloc {
   /// code    | title   | imageUrl  | message
   /// ----------------------------------------
   Future<List> getBannerInfo() async {
+    String _token = authBloc.getAccessToken();
+    print(_token);
     var res = await _restClient.getBanners(_token).then((banners){
-      return [banners.codeName, banners.title, banners.imageUrl, banners.contents];
+      return banners;
     }).catchError((error) {
-      print('error: $error');
-      return ['', '', '', ''];
+      print('getBannerInfo error : $error');
+      return [['', '', '', '']];
     });
-    return ['', '', '', ''];
+    return [['', '', '', '']];
   }
 }

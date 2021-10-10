@@ -4,7 +4,8 @@ import 'package:dio/dio.dart';
 
 part 'RestClient.g.dart';
 
-@RestApi(baseUrl:'http://ec2-3-35-55-47.ap-northeast-2.compute.amazonaws.com:8080')
+// @RestApi(baseUrl:'http://ec2-3-35-55-47.ap-northeast-2.compute.amazonaws.com:8080')
+@RestApi(baseUrl:'http://192.168.35.79:8080') // TODO : Loaclhost for test
 abstract class RestClient {
   factory RestClient(Dio dio, {String baseUrl}){
     dio.options = BaseOptions(receiveTimeout: 10000, connectTimeout: 10000);
@@ -29,7 +30,7 @@ abstract class RestClient {
 
   // Banner
   @GET('/strada/v1/banners')
-  Future<Banners> getBanners(
+  Future<List<Banners>> getBanners(
       @Header("authorization") String token,
       );
 }

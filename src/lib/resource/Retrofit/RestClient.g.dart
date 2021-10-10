@@ -39,8 +39,7 @@ Map<String, dynamic> _$BannersToJson(Banners instance) => <String, dynamic>{
 class _RestClient implements RestClient {
   _RestClient(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
-    baseUrl ??=
-        'http://ec2-3-35-55-47.ap-northeast-2.compute.amazonaws.com:8080';
+    baseUrl ??= 'http://192.168.35.79:8080';
   }
 
   final Dio _dio;
@@ -102,13 +101,12 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<Banners> getBanners(token) async {
+  Future<List<Banners>> getBanners(token) async {
     ArgumentError.checkNotNull(token, 'token');
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/strada/v1/banners',
+    final _result = await _dio.request<List<dynamic>>('/strada/v1/banners',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -116,7 +114,9 @@ class _RestClient implements RestClient {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = Banners.fromJson(_result.data);
+    var value = _result.data
+        .map((dynamic i) => Banners.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 }

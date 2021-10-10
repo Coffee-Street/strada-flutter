@@ -71,6 +71,7 @@ class _AuthMainPageState extends State<AuthMainPage> {
                   var resLoggedIn = authBloc.logIn(phoneNumberController.text, _autoLogin);
                   resLoggedIn.then((isSuccess) {
                     if(isSuccess != null && isSuccess == true) {
+                      authBloc.getHealth();
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => HomePage()),
