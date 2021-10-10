@@ -80,22 +80,6 @@ class _AuthMainPageState extends State<AuthMainPage> {
                 },
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 72,
-              child:  RaisedButton(
-                child: Text(
-                  '퐁퐁',
-                  style: TextStyle(fontSize: 15),
-                ),
-                onPressed: () async {
-                  var resLoggedIn = authBloc.getHealth();
-                  resLoggedIn.then((isSuccess) {
-                    print('퐁퐁 결과 :::: $isSuccess');
-                  });
-                },
-              ),
-            ),
             Padding(
               padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
               child: Row(
