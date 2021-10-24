@@ -1,10 +1,13 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 import 'package:src/resource/BLoC/AuthBLoC.dart';
 import 'package:src/resource/BLoC/BannerBLoC.dart';
+import 'package:src/resource/Retrofit/RestClient.dart';
 import 'package:src/resource/design/ColorPalette.dart';
+
 import 'package:src/resource/Screens/Auth.dart';
 
 class HomePage extends StatelessWidget {
@@ -26,11 +29,13 @@ class _HomePageDisplayState extends State<HomePageDisplay> {
   static AuthBloc authBloc = AuthBloc();
   static BannerBloc bannerBloc = BannerBloc();
 
+  List<BannerInfo> _banners = [];
+  var _bannerIndex = 0;
+
   // Session List
   Widget appbarSession(BuildContext context) {
     return Container(
         padding: EdgeInsets.zero,
-        color: MainColorPalette.monoWhite,
         width: MediaQuery.of(context).size.width,
         height: 88,
         child: Column(
@@ -140,96 +145,124 @@ class _HomePageDisplayState extends State<HomePageDisplay> {
     );
   }
 
-  Widget bannerSession(BuildContext context){
-    var resBanner = bannerBloc.getBannerInfo();
-    resBanner.then((bannerInfo) {
-      return Container(
-        height: 350.0,
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverToBoxAdapter(
-              child: Container(
-                height: 350.0,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return Container(
-                        width: 480.0,
-                        child:DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: MainColorPalette.primaryColor,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(50),
-                              bottomLeft: Radius.circular(50),
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                'code',
-                              ),
-                              Text(
-                                'title',
-                              ),
-                              Text(
-                                'imageUrl',
-                              ),
-                              Text(
-                                'message',
-                              ),
-                            ],
-                          ),
-                        )
-                    );
-                  },
+  Widget bannerSession(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: 32.0),
+      height: 344.0,
+      child: Swiper(
+        loop: true,
+        pagination: new SwiperPagination(
+          margin: EdgeInsets.only(left: 24.0),
+          alignment: Alignment.bottomLeft,
+          builder: new DotSwiperPaginationBuilder(
+            size: 5.0,
+            activeSize: 5.0,
+            space: 8.0,
+            color: MainColorPalette.monoGray,
+            activeColor: MainColorPalette.primaryColor,
+          ),
+        ),
+        itemCount: _banners.length,
+        viewportFraction: 1.0,
+        itemBuilder: (BuildContext context, int index) {
+          return Container(
+            padding: EdgeInsets.only(left: 24.0, bottom: 35.0),
+            width: MediaQuery.of(context).size.width,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: MainColorPalette.primaryColor,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                  bottomLeft: Radius.circular(50),
                 ),
               ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(left: 30.0, top: 35.0),
+                    child: Text(
+                      _banners[index].title,
+                      style: TextStyle(
+                        color: MainColorPalette.monoWhite,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 30.0, top: 172.0),
+                    child: Text(
+                      _banners[index].contents,
+                      style: TextStyle(
+                        color: MainColorPalette.monoWhite,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          ],
-        ),
-      );
-    });
-    return Container(
-      height: 350.0,
-      color: MainColorPalette.monoBlack,
+          );
+        },
+      ),
     );
   }
 
   Widget orderSession(BuildContext context){
     return Container(
-      padding: EdgeInsets.fromLTRB(24.0, 77, 0, 0),
-      child: DecoratedBox(
-        decoration: BoxDecoration(),
-        child: Row(
-          children: <Widget>[
-            Text(
+      padding: EdgeInsets.only(top: 77.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            child: Text(
               '주문하기',
+              style: TextStyle(
+                color: MainColorPalette.primaryColor,
+                fontSize: 22,
+              ),
+              textAlign: TextAlign.center,
             ),
-          ],
-        ),
+          ),
+          RotatedBox(
+            quarterTurns: 1,
+            child: IconButton(
+              iconSize: 48,
+              icon: Image.asset(
+                'assets/icon_images/icon_more_thick_blue.png',
+                color: MainColorPalette.primaryColor,
+              ),
+              onPressed: () {},
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Future _getBannerInfo() async {
+  void getBannerInfo() async {
     var resBanner = bannerBloc.getBannerInfo();
-    resBanner.then((bannerInfo) {
-      return bannerInfo;
+    resBanner.then((banners) {
+      setState(() {
+        _banners = banners.cast<BannerInfo>();
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      getBannerInfo();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    double maxScreenWidth = MediaQuery.of(context).size.width;
     double iconSize;
-    if(maxScreenWidth > 1){
-      iconSize = 100;
-    }
-    else {
-      iconSize = 48;
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -250,7 +283,6 @@ class _HomePageDisplayState extends State<HomePageDisplay> {
             iconSize: 48,
             icon: Image.asset(
               'assets/icon_images/icon_voc@2x.png',
-              // width: 48, height: 48,
               width: iconSize, height: iconSize,
               color: MainColorPalette.primaryColor,
             ),
@@ -260,18 +292,15 @@ class _HomePageDisplayState extends State<HomePageDisplay> {
             iconSize: 48,
             icon: Image.asset(
               'assets/icon_images/icon_notice@2x.png',
-              // width: 48, height: 48,
-              // width: iconSize, height: iconSize,
+              width: iconSize, height: iconSize,
               color: MainColorPalette.primaryColor,
             ),
             onPressed: () {},
           ),
         ],
       ),
-      body:Padding(
-        padding: EdgeInsets.only(
-          left: 0,
-        ),
+      body: Container(
+        color: MainColorPalette.monoWhite,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[

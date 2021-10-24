@@ -16,7 +16,7 @@ class AuthBloc {
     if(_token == '')
       return Future.value(false);
 
-    var resHealth = await _restClient.getPong(_token).then((response) {
+    var resHealth = await _restClient.getPong('Bearer ' + _token).then((response) {
       return Future.value(true);
     }).catchError((error) {
       print('Get health error: $error');
@@ -29,7 +29,6 @@ class AuthBloc {
     if(_token == '') {
       var resToken = await _restClient.getToken(phoneNumber).then((resToken){
         _token = resToken.accessToken;
-        print(_token);
         return Future.value(true);
       }).catchError((error) {
         print('Get token error: $error');

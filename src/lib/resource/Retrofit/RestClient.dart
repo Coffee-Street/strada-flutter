@@ -30,7 +30,7 @@ abstract class RestClient {
 
   // Banner
   @GET('/strada/v1/banners')
-  Future<List<Banners>> getBanners(
+  Future<List<BannerInfo>> getBanners(
       @Header("authorization") String token,
       );
 }
@@ -48,26 +48,32 @@ class Token {
 }
 
 @JsonSerializable()
-class Banners {
+class BannerInfo {
   String codeName;
   String title;
   String imageUrl;
   String contents;
 
-  Banners({
+  BannerInfo({
     this.codeName,
     this.title,
     this.imageUrl,
     this.contents,
   });
 
-  factory Banners.fromJson(Map<String, dynamic> json) {
-    return Banners(
+  @override
+  String toString()
+  {
+    return "code: $codeName, title: $title, imageUrl: $imageUrl, message: $contents";
+  }
+
+  factory BannerInfo.fromJson(Map<String, dynamic> json) {
+    return BannerInfo(
       codeName: json["code"],
       title: json["title"],
       imageUrl: json["imageUrl"],
       contents: json["message"],
     );
   }
-  Map<String, dynamic> toJson() => _$BannersToJson(this);
+  Map<String, dynamic> toJson() => _$BannerInfoToJson(this);
 }

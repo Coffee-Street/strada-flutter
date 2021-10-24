@@ -17,15 +17,19 @@ class BannerBloc {
   /// ----------------------------------------
   /// code    | title   | imageUrl  | message
   /// ----------------------------------------
-  Future<List> getBannerInfo() async {
+  Future<List<BannerInfo>> getBannerInfo() async {
     String _token = authBloc.getAccessToken();
-    print(_token);
-    var res = await _restClient.getBanners(_token).then((banners){
-      return banners;
+    var res = await _restClient.getBanners('Bearer ' + _token).then((banners){
+      print('----- Responsed the Banner Info -----');
+      for(var i=0 ; i < banners.length ; i++) {
+        print(banners[i]);
+      }
+      print('--------------------');
+      return Future.value(banners);
     }).catchError((error) {
       print('getBannerInfo error : $error');
-      return [['', '', '', '']];
+      return [];
     });
-    return [['', '', '', '']];
+    return res;
   }
 }
