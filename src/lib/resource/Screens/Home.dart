@@ -5,6 +5,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 
 import 'package:src/resource/BLoC/AuthBLoC.dart';
 import 'package:src/resource/BLoC/BannerBLoC.dart';
+import 'package:src/resource/BLoC/UserProfileBLoC.dart';
 import 'package:src/resource/Retrofit/RestClient.dart';
 import 'package:src/resource/design/ColorPalette.dart';
 
@@ -28,9 +29,10 @@ class HomePageDisplay extends StatefulWidget {
 class _HomePageDisplayState extends State<HomePageDisplay> {
   static AuthBloc authBloc = AuthBloc();
   static BannerBloc bannerBloc = BannerBloc();
+  static UserProfileBloc userProfBloc = UserProfileBloc();
 
   List<BannerInfo> _banners = [];
-  var _bannerIndex = 0;
+  UserProfile _profile;
 
   // Session List
   Widget appbarSession(BuildContext context) {
@@ -96,7 +98,7 @@ class _HomePageDisplayState extends State<HomePageDisplay> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '어서오세요\n사용자 휴대폰 번호', // TODO : user id(phone number) 적용
+              '어서오세요\n' + _profile.userId,
               style: TextStyle(
                 fontSize: 15,
                 color: MainColorPalette.monoDarkGray,
@@ -106,7 +108,7 @@ class _HomePageDisplayState extends State<HomePageDisplay> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  '0,000P', // TODO : user point 적용
+                  _profile.point.toString() + ' P',
                   style: TextStyle(
                     fontSize: 36,
                     color: MainColorPalette.primaryColor,
@@ -157,7 +159,7 @@ class _HomePageDisplayState extends State<HomePageDisplay> {
           builder: new DotSwiperPaginationBuilder(
             size: 5.0,
             activeSize: 5.0,
-            space: 8.0,
+            space: 5.0,
             color: MainColorPalette.monoGray,
             activeColor: MainColorPalette.primaryColor,
           ),
@@ -170,10 +172,20 @@ class _HomePageDisplayState extends State<HomePageDisplay> {
             width: MediaQuery.of(context).size.width,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: MainColorPalette.primaryColor,
+                // color: MainColorPalette.primaryColor,
+                color: Color(0xff000000 + int.parse(_banners[index].backColor.substring(1, _banners[index].backColor.length), radix: 16)),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(50),
                   bottomLeft: Radius.circular(50),
+                ),
+                image: DecorationImage(
+                  image: NetworkImage(_banners[index].imageUrl),
+                  // fit: BoxFit.fill,
+                  fit: BoxFit.contain,
+                  // fit: BoxFit.cover,
+                  // fit: BoxFit.fitWidth,
+                  // fit: BoxFit.fitHeight,
+                  // fit: BoxFit.none,
                 ),
               ),
               child: Column(
@@ -252,11 +264,21 @@ class _HomePageDisplayState extends State<HomePageDisplay> {
     });
   }
 
+  void getUserProfile() async {
+    var resProfile = userProfBloc.getUserProfile();
+    resProfile.then((profile) {
+      setState(() {
+        _profile = profile;
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
       getBannerInfo();
+      getUserProfile();
     });
   }
 

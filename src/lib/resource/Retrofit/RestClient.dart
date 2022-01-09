@@ -33,6 +33,13 @@ abstract class RestClient {
   Future<List<BannerInfo>> getBanners(
       @Header("authorization") String token,
       );
+
+  // User Profile
+  @GET('/strada/v1/profiles/{id}')
+  Future<UserProfile> getUserProfile(
+      @Header("authorization") String token,
+      @Path("id") var id,
+      );
 }
 
 @JsonSerializable()
@@ -53,18 +60,22 @@ class BannerInfo {
   String title;
   String imageUrl;
   String contents;
+  String backColor;
+  String fontColor;
 
   BannerInfo({
     this.codeName,
     this.title,
     this.imageUrl,
     this.contents,
+    this.backColor,
+    this.fontColor,
   });
 
   @override
   String toString()
   {
-    return "code: $codeName, title: $title, imageUrl: $imageUrl, message: $contents";
+    return "code: $codeName, title: $title, imageUrl: $imageUrl, message: $contents, back: $backColor, font: $fontColor";
   }
 
   factory BannerInfo.fromJson(Map<String, dynamic> json) {
@@ -73,7 +84,37 @@ class BannerInfo {
       title: json["title"],
       imageUrl: json["imageUrl"],
       contents: json["message"],
+      backColor: json["backgroundColor"],
+      fontColor: json["fontColor"],
     );
   }
   Map<String, dynamic> toJson() => _$BannerInfoToJson(this);
+}
+
+@JsonSerializable()
+class UserProfile {
+  var id;
+  String userId;
+  var point;
+
+  UserProfile({
+    this.id,
+    this.userId,
+    this.point,
+  });
+
+  @override
+  String toString()
+  {
+    return "id: $id, userId: $userId, point: $point";
+  }
+
+  factory UserProfile.fromJson(Map<String, dynamic> json) {
+    return UserProfile(
+      id: json["id"],
+      userId: json["userId"],
+      point: json["point"],
+    );
+  }
+  Map<String, dynamic> toJson() => _$UserProfileToJson(this);
 }
