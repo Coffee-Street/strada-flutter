@@ -20,11 +20,8 @@ class UserProfileBloc {
   /// id      | userId  | point
   /// ----------------------------------------
   Future<UserProfile> getUserProfile() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String userPhoneNumber = prefs.getString('phoneNumber');
-
     String _token = authBloc.getAccessToken();
-    var res = await _restClient.getUserProfile('Bearer ' + _token, 1).then((profile){ // TODO : 상수 1이 아닌 userPhoneNumber 삽입
+    var res = await _restClient.getUserProfile('Bearer ' + _token).then((profile){
       print('----- Responsed the User Profile -----');
         print(profile);
       print('--------------------');

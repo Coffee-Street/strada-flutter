@@ -35,10 +35,9 @@ abstract class RestClient {
       );
 
   // User Profile
-  @GET('/strada/v1/profiles/{id}')
+  @GET('/strada/v1/profiles')
   Future<UserProfile> getUserProfile(
       @Header("authorization") String token,
-      @Path("id") var id,
       );
 }
 

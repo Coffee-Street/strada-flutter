@@ -32,7 +32,7 @@ class _HomePageDisplayState extends State<HomePageDisplay> {
   static UserProfileBloc userProfBloc = UserProfileBloc();
 
   List<BannerInfo> _banners = [];
-  UserProfile _profile;
+  UserProfile _profile = new UserProfile(userId: '0', point: 0);
 
   // Session List
   Widget appbarSession(BuildContext context) {
@@ -277,8 +277,8 @@ class _HomePageDisplayState extends State<HomePageDisplay> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_){
-      getBannerInfo();
       getUserProfile();
+      getBannerInfo();
     });
   }
 
