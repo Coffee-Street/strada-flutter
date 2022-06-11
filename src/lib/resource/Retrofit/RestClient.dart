@@ -39,8 +39,15 @@ abstract class RestClient {
   Future<UserProfile> getUserProfile(
       @Header("authorization") String token,
       );
+
+  // Coffee
+  @GET('/strada/v1/coffees/admin')
+  Future<List<Coffee>> getAllCoffee(
+      @Header("authorization") String token,
+      );
 }
 
+// AuthBLoC
 @JsonSerializable()
 class Token {
   String accessToken;
@@ -53,6 +60,7 @@ class Token {
   Map<String, dynamic> toJson() => _$TokenToJson(this);
 }
 
+// BannerBLoC
 @JsonSerializable()
 class BannerInfo {
   String codeName;
@@ -90,6 +98,7 @@ class BannerInfo {
   Map<String, dynamic> toJson() => _$BannerInfoToJson(this);
 }
 
+// UserProfileBLoC
 @JsonSerializable()
 class UserProfile {
   var id;
@@ -116,4 +125,90 @@ class UserProfile {
     );
   }
   Map<String, dynamic> toJson() => _$UserProfileToJson(this);
+}
+
+// BeanBLoC
+@JsonSerializable()
+class Bean {
+  String id;
+  String origin;
+  String farm;
+  String description;
+  String processing;
+  String roasting;
+  String kind;
+  String grade;
+
+  Bean({
+    this.id,
+    this.origin,
+    this.farm,
+    this.description,
+    this.processing,
+    this.roasting,
+    this.kind,
+    this.grade,
+  });
+
+  @override
+  String toString()
+  {
+    return "id: $id, origin: $origin, farm: $farm, description: $description,"
+        "processing: $processing, roasting: $roasting, kind: $kind, grade: $grade";
+  }
+
+  factory Bean.fromJson(Map<String, dynamic> json) {
+    return Bean(
+      id: json["id"],
+      origin: json["origin"],
+      farm: json["farm"],
+      description: json["description"],
+      processing: json["processing"],
+      roasting: json["roasting"],
+      kind: json["kind"],
+      grade: json["grade"],
+    );
+  }
+  Map<String, dynamic> toJson() => _$BeanToJson(this);
+}
+
+// CoffeeBLoC
+@JsonSerializable()
+class Coffee {
+  var id;
+  String name;
+  String imageUrl;
+  var price;
+  String description;
+  String category;
+  Bean bean;
+
+  Coffee({
+    this.id,
+    this.name,
+    this.imageUrl,
+    this.price,
+    this.description,
+    this.category,
+    this.bean,
+  });
+
+  @override
+  String toString()
+  {
+    return "id: $id, name: $name, imgUrl: $imageUrl, price: $price, description: $description, category: $category, bean: $bean";
+  }
+
+  factory Coffee.fromJson(Map<String, dynamic> json) {
+    return Coffee(
+      id: json["id"],
+      name: json["name"],
+      imageUrl: json["imageUrl"],
+      price: json["price"],
+      description: json["description"],
+      category: json["category"],
+      bean: json["bean"],
+    );
+  }
+  Map<String, dynamic> toJson() => _$CoffeeToJson(this);
 }

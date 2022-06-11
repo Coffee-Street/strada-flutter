@@ -3,16 +3,17 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
+import 'package:src/resource/Retrofit/RestClient.dart';
 import 'package:src/resource/BLoC/AuthBLoC.dart';
 import 'package:src/resource/BLoC/BannerBLoC.dart';
 import 'package:src/resource/BLoC/UserProfileBLoC.dart';
-import 'package:src/resource/Retrofit/RestClient.dart';
+
 import 'package:src/resource/design/ColorPalette.dart';
 
 import 'package:src/resource/Screens/Auth.dart';
+import 'package:src/resource/Screens/Menu.dart';
 
 class HomePage extends StatelessWidget {
-  // TODO : Home Widget 작성
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -247,7 +248,17 @@ class _HomePageDisplayState extends State<HomePageDisplay> {
                 'assets/icon_images/icon_more_thick_blue.png',
                 color: MainColorPalette.primaryColor,
               ),
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  isScrollControlled: true,
+                  context: context,
+                  builder: (context) => MenuPopUpPage(),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  backgroundColor: MainColorPalette.monoWhite,
+                );
+              },
             ),
           ),
         ],
