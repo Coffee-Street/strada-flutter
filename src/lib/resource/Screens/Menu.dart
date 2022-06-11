@@ -6,11 +6,30 @@ import 'package:src/resource/BLoC/CoffeeBLoC.dart';
 import 'package:src/resource/design/ColorPalette.dart';
 
 class MenuCardPage extends StatefulWidget {
+  String _name;
+  var _price;
+
+
+  MenuCardPage(String name, var price){
+    this._name = name;
+    this._price = price;
+
+    print(_name.toString() + ", " + _price.toString());
+  }
+
   @override
-  _MenuCardPageState createState() => _MenuCardPageState();
+  _MenuCardPageState createState() => _MenuCardPageState(_name, _price);
 }
 
 class _MenuCardPageState extends State<MenuCardPage> {
+  String _name;
+  var _price;
+
+  _MenuCardPageState(String name, var price){
+    this._name = name;
+    this._price = price;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -44,7 +63,7 @@ class _MenuCardPageState extends State<MenuCardPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  '메뉴 이름',
+                  _name.toString(),
                   style: TextStyle(
                     color: MainColorPalette.monoBlack,
                     fontSize: 17,
@@ -58,7 +77,7 @@ class _MenuCardPageState extends State<MenuCardPage> {
                   ),
                 ),
                 Text(
-                  '0,000 원',
+                  _price.toString() + ' 원',
                   style: TextStyle(
                     color: MainColorPalette.monoBlack,
                     fontSize: 17,
@@ -172,11 +191,11 @@ class _MenuPopUpPageState extends State<MenuPopUpPage> {
           // TODO : 선 넣기
           Container(
             padding: EdgeInsets.only(top: 15.0),
-            height: 96, // TODO : 왜 계속 안되지?
+            height: 600, // TODO : 왜 계속 안되지?
             child: ListView.builder(
               itemCount: _coffees.length,
               itemBuilder: (context, index){
-                return MenuCardPage();
+                return MenuCardPage(_coffees[index].name, _coffees[index].price);
               },
             ),
           ),
