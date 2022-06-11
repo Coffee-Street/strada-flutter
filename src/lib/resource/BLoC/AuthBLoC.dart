@@ -6,21 +6,20 @@ class AuthBloc {
   static Dio _dio = Dio();
   static RestClient _restClient = RestClient(_dio);
 
-  static String _token;
+  static String _token = '';
 
   AuthBloc()
   {
-    _token = '';
   }
 
   Future<bool> getHealth() async {
     if(_token == '')
       return Future.value(false);
 
-    var resHealth = await _restClient.getPong(_token).then((response) {
+    var resHealth = await _restClient.getPong('Bearer ' + _token).then((response) {
       return Future.value(true);
     }).catchError((error) {
-      print('error: $error');
+      print('Get health error: $error');
       return Future.value(false);
     });
     return resHealth;
@@ -32,13 +31,14 @@ class AuthBloc {
         _token = resToken.accessToken;
         return Future.value(true);
       }).catchError((error) {
-        print('error: $error');
+        print('Get token error: $error');
         return Future.value(false);
       });
       return resToken;
     }
     else {
       var resHealth = getHealth().then((isHealth){
+        print('server heath : $isHealth');
         return Future.value(isHealth);
       }).catchError((error) {
         print('error: $error');
@@ -79,7 +79,7 @@ class AuthBloc {
           prefs.setString('phoneNumber', null);
         }
         print('Login succeeded : $response');
-        return Future.value(true);
+        return Future.value(response);
       }
       else
         return Future.value(false);
@@ -98,5 +98,9 @@ class AuthBloc {
 
     print('Logout succeeded : true');
     return Future.value(true);
+  }
+
+  String getAccessToken() {
+    return _token;
   }
 }

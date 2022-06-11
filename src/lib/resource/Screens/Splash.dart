@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:splashscreen/splashscreen.dart';
 
+import '../design/ColorPalette.dart';
+import '../design/ViewSetting.dart';
 import 'Auth.dart';
 import 'Main.dart';
 
@@ -12,21 +13,33 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  static ViewSetting viewSetting = ViewSetting();
+  double screenW = 0, screenH = 0;
+
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3),
-            ()=>Navigator.pushReplacement(context,
-            MaterialPageRoute(builder:
-                (context) => AuthMainPage()
-            )
-        )
-    );
+    var res = viewSetting.GetViewSize().then((screenSize) {
+      screenW = screenSize[0];
+      screenH = screenSize[1];
+      print('width : $screenW');
+      print('height : $screenH');
+
+      Timer(Duration(seconds: 3),
+              ()=>Navigator.pushReplacement(context,
+              MaterialPageRoute(builder:
+                  (context) => AuthMainPage()
+              )
+          )
+      );
+    }).catchError((error) {
+      print('error: $error');
+    });
   }
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.white,
+        color: MainColorPalette.monoWhite,
         child:Center(
           child: Image.asset(
             'assets/splash_logo.png',
@@ -36,26 +49,6 @@ class _SplashPageState extends State<SplashPage> {
         ),
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return new SplashScreen(
-  //     seconds: 3,
-  //     navigateAfterSeconds: new AuthMainPage(),
-  //     title: new Text(''),
-  //     image: Image.asset(
-  //       'assets/splash_logo.png',
-  //       width: 120,
-  //       height: 81,
-  //     ),
-  //     photoSize: 100.0,
-  //     backgroundColor: Colors.white,
-  //     styleTextUnderTheLoader: null,
-  //     onClick: ()=>print("Flutter Egypt"),
-  //     loaderColor: Colors.indigo,
-  //     useLoader: false,
-  //   );
-  // }
 }
 class AfterSplash extends StatefulWidget {
   @override
@@ -63,6 +56,7 @@ class AfterSplash extends StatefulWidget {
 }
 class _AterSplashState extends State<AfterSplash> {
   bool _autoLogin = true;
+
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +79,7 @@ class _AterSplashState extends State<AfterSplash> {
               child: TextField(
                 decoration: InputDecoration(
                   enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.blue),
+                    borderSide: BorderSide(color: MainColorPalette.primaryColor),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   hintText: '전화번호를 입력해주세요.',

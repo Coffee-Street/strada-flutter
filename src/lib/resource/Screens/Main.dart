@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 // TODO : 연결할 파일 import
 import 'Home.dart';
-import 'Auth.dart';
 
 void main() => runApp(MainApp());
 
@@ -21,7 +20,6 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-
 
 class MainMenu extends StatefulWidget {
   MainMenu({Key key, this.title}) : super(key: key);
